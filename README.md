@@ -19,6 +19,8 @@ Fort Kochi, Mattancherry/Jew Town, Willingdon Island, Tripunithura, Vypin, and t
 
 The map is locked to this region (`maxBounds` in `app.js`) — panning and zooming out are clamped so the tiles shown never wander outside Greater Kochi and Kodungallur. A dark-mode toggle (top right) follows the system theme by default and switches the map between OpenFreeMap's `liberty` (light) and `dark` styles; the choice persists in `localStorage`.
 
+"Get directions" opens [osm-navigator](https://osm-navigator.siddharthshiv2798.workers.dev/), a companion turn-by-turn routing app, with the monument pre-filled as the destination. It works by building a Google-Maps-shaped URL (`.../maps/place/<name>/@<lat>,<lng>,17z`) and passing it via `?url=`, the same mechanism osm-navigator uses to resolve a pasted or shared Google Maps link — it parses the coordinates client-side and sets them as the destination search pick. The starting point isn't set by this site; osm-navigator handles that itself (its own current-location prompt or manual entry).
+
 ## Running locally
 
 ```

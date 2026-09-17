@@ -128,6 +128,17 @@ function setAllCheckboxes(checked) {
   applyFilter();
 }
 
+const OSM_NAVIGATOR_BASE = "https://osm-navigator.siddharthshiv2798.workers.dev/";
+
+// osm-navigator resolves a pasted/shared Google Maps link into a destination search-field pick
+// (see its lib/google-maps-url.js: parseGoogleMapsUrl looks for an "@lat,lon," pattern in the URL).
+// Building a URL in that exact shape lets it resolve the coordinates entirely client-side, with no
+// server round-trip, then hands off to osm-navigator's own "Get directions" / current-location flow.
+function buildDirectionsUrl(monument) {
+  const gmapsUrl = `https://www.google.com/maps/place/${encodeURIComponent(monument.name)}/@${monument.lat},${monument.lng},17z`;
+  return `${OSM_NAVIGATOR_BASE}?url=${encodeURIComponent(gmapsUrl)}`;
+}
+
 function openDetail(monument) {
   const overlay = document.getElementById("detail-overlay");
   const content = document.getElementById("detail-content");
@@ -140,7 +151,7 @@ function openDetail(monument) {
     <div class="address">${monument.address}</div>
     ${image}
     <p>${monument.description}</p>
-    <a class="directions-link" href="${monument.mapsUrl}" target="_blank" rel="noopener">Get directions</a>
+    <a class="directions-link" href="${buildDirectionsUrl(monument)}" target="_blank" rel="noopener">Get directions</a>
   `;
   overlay.hidden = false;
 }
