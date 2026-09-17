@@ -1,37 +1,37 @@
 {
   "source": "Curated from published histories of Kochi/Cochin and the Muziris region — see README.md for the full bibliography",
   "attribution": "Map style © OpenFreeMap; map data © OpenStreetMap contributors",
-  "generatedAt": "2026-09-17T00:00:00Z",
+  "generatedAt": "2026-09-17T13:32:39Z",
   "monuments": [
     {
       "id": "muziris-pattanam",
       "name": "Muziris Archaeological Site, Pattanam",
-      "lat": 10.1690,
-      "lng": 76.2110,
-      "address": "Pattanam, Kodungallur Taluk, Thrissur District, Kerala",
+      "lat": 10.1565,
+      "lng": 76.209,
+      "address": "Pattanam, Chendamangalam, Paravur Taluk, Ernakulam District, Kerala",
       "era": "pre-cochin",
       "eraLabel": "Chera / Muziris-adjacent Era",
       "description": "Ongoing excavations at Pattanam since 2007 have uncovered Roman amphorae, Mediterranean glass, and a wharf-like wooden structure carbon-dated to the early centuries CE, making this the leading candidate site for ancient Muziris — the fabled Chera-era port that anchored Kerala's Indo-Roman pepper trade. Ancient Mediterranean writers described Muziris as the pre-eminent emporium of the Malabar coast, reachable from Alexandria within weeks using the monsoon winds. Citations: P.J. Cherian (ed.), Pattanam Excavations: Interim Reports (Kerala Council for Historical Research, 2007–2015); Roberta Tomber (2008), 'Indo-Roman Trade: From Pots to Pepper'; Pliny the Elder, Natural History (c. 77 CE); Periplus Maris Erythraei (1st century CE), trans. Lionel Casson (1989).",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.1690,76.2110"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.1565,76.209"
     },
     {
       "id": "cheraman-juma-masjid",
       "name": "Cheraman Juma Masjid",
-      "lat": 10.2280,
-      "lng": 76.1970,
+      "lat": 10.2129,
+      "lng": 76.2021,
       "address": "Methala, Kodungallur, Thrissur District, Kerala",
       "era": "pre-cochin",
       "eraLabel": "Chera / Muziris-adjacent Era",
       "description": "Traditionally dated to 629 CE and popularly described as the oldest mosque in India, this mosque is said by local tradition to have been founded during the reign of the last Chera ruler, Cheraman Perumal, who according to legend converted to Islam and traveled to Arabia. The present structure has been rebuilt and renovated many times over the centuries, and its exact founding date rests on tradition and later chronicles rather than archaeological proof. Citations: Roland E. Miller (1976), 'Mappila Muslims of Kerala: A Study in Islamic Trends'; A. Sreedhara Menon (1967), 'A Survey of Kerala History'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.2280,76.1970"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.2129,76.2021"
     },
     {
       "id": "kodungallur-bhagavathy-temple",
       "name": "Kodungallur Bhagavathy Temple",
-      "lat": 10.2260,
-      "lng": 76.1950,
+      "lat": 10.226,
+      "lng": 76.195,
       "address": "Kodungallur, Thrissur District, Kerala",
       "era": "pre-cochin",
       "eraLabel": "Chera / Muziris-adjacent Era",
@@ -42,44 +42,44 @@
     {
       "id": "mattancherry-palace",
       "name": "Mattancherry Palace (Dutch Palace)",
-      "lat": 9.9581,
-      "lng": 76.2598,
+      "lat": 9.9584,
+      "lng": 76.2592,
       "address": "Palace Road, Mattancherry, Kochi, Kerala",
       "era": "kingdom-of-cochin",
       "eraLabel": "Kingdom of Cochin (Perumpadappu Swaroopam)",
       "description": "Built around 1555 by the Portuguese as a gift to Raja Veera Kerala Varma of Cochin, reputedly in partial compensation for a plundered temple, this palace was substantially renovated by the Dutch in 1663 — hence its common name. It served as the ceremonial coronation site and residence of the Cochin Rajas, and its interior murals depicting the Ramayana and Mahabharata remain among the finest examples of Kerala mural art. Citations: C. Achyutha Menon (1911), 'The Cochin State Manual'; K.P. Padmanabha Menon (1924–1937), 'History of Kerala'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9581,76.2598"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9584,76.2592"
     },
     {
       "id": "sree-poornathrayeesa-temple",
       "name": "Sree Poornathrayeesa Temple",
-      "lat": 9.9436,
-      "lng": 76.3444,
+      "lat": 9.945,
+      "lng": 76.3422,
       "address": "Tripunithura, Ernakulam District, Kerala",
       "era": "kingdom-of-cochin",
       "eraLabel": "Kingdom of Cochin (Perumpadappu Swaroopam)",
       "description": "The principal deity temple of the Cochin royal family, this shrine has been central to the Perumpadappu Swaroopam's ritual and political life since the dynasty relocated its seat to Tripunithura, and its Vrishchikolsavam festival was historically sponsored directly by the Cochin state treasury. Citations: C. Achyutha Menon (1911), 'The Cochin State Manual'; A. Sreedhara Menon (1967), 'A Survey of Kerala History'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9436,76.3444"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.945,76.3422"
     },
     {
       "id": "paliam-palace-chendamangalam",
       "name": "Paliam Palace (Paliath Nalukettu)",
-      "lat": 10.1390,
-      "lng": 76.2620,
+      "lat": 10.178,
+      "lng": 76.208,
       "address": "Chendamangalam, Ernakulam District, Kerala",
       "era": "kingdom-of-cochin",
       "eraLabel": "Kingdom of Cochin (Perumpadappu Swaroopam)",
       "description": "Ancestral seat of the Paliath Achans, the hereditary chief ministers (Sarvadhikaryakkars) of the Kingdom of Cochin from the 17th to the 19th centuries, this traditional Kerala nalukettu residence reflects the domestic architecture of the aristocratic families who administered the Cochin state alongside its Rajas. Citations: C. Achyutha Menon (1911), 'The Cochin State Manual'; K.P. Padmanabha Menon (1924–1937), 'History of Kerala'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.1390,76.2620"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.178,76.208"
     },
     {
       "id": "tripunithura-hill-palace-predecessor",
       "name": "Old Tripunithura Aramana (Royal Residences)",
-      "lat": 9.9450,
-      "lng": 76.3420,
+      "lat": 9.945,
+      "lng": 76.342,
       "address": "Tripunithura, Ernakulam District, Kerala",
       "era": "kingdom-of-cochin",
       "eraLabel": "Kingdom of Cochin (Perumpadappu Swaroopam)",
@@ -90,32 +90,32 @@
     {
       "id": "st-francis-church",
       "name": "St. Francis Church",
-      "lat": 9.9658,
-      "lng": 76.2427,
+      "lat": 9.9659,
+      "lng": 76.2411,
       "address": "Fort Kochi, Kochi, Kerala",
       "era": "portuguese",
       "eraLabel": "Portuguese Cochin (1503–1663)",
       "description": "Built in 1503 by Portuguese Franciscan friars shortly after Cochin became the site of Portugal's first colonial settlement in India, this is widely regarded as one of the earliest European churches in the country. Vasco da Gama died in Cochin in 1524 and was originally buried here before his remains were moved to Lisbon in 1539; the church later passed to the Dutch Reformed tradition and then to the Anglican church under the British. Citations: Pius Malekandathil (2001), 'Portuguese Cochin and the Maritime Trade of India, 1500–1663'; A. Sreedhara Menon (1967), 'A Survey of Kerala History'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9658,76.2427"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9659,76.2411"
     },
     {
       "id": "chinese-fishing-nets",
       "name": "Chinese Fishing Nets, Fort Kochi",
-      "lat": 9.9695,
-      "lng": 76.2401,
+      "lat": 9.9682,
+      "lng": 76.2422,
       "address": "Vasco da Gama Square, Fort Kochi, Kochi, Kerala",
       "era": "portuguese",
       "eraLabel": "Portuguese Cochin (1503–1663)",
       "description": "These cantilevered shore-operated lift nets, locally called cheena vala, are held by local tradition to have been introduced by traders from the court of the Chinese explorer Zheng He or by earlier Chinese merchant contacts, though the surviving written evidence for this claim is thin compared to the well-documented Chinese trading presence on the Malabar coast in earlier centuries. The promenade beside them takes its modern name from Vasco da Gama, who landed nearby at the start of the Portuguese period. Citations: A. Sreedhara Menon (1967), 'A Survey of Kerala History'; K.P. Padmanabha Menon (1924–1937), 'History of Kerala'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9695,76.2401"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9682,76.2422"
     },
     {
       "id": "fort-immanuel",
       "name": "Fort Immanuel (Fort Kochi)",
-      "lat": 9.9660,
-      "lng": 76.2410,
+      "lat": 9.966,
+      "lng": 76.241,
       "address": "Fort Kochi, Kochi, Kerala",
       "era": "portuguese",
       "eraLabel": "Portuguese Cochin (1503–1663)",
@@ -126,14 +126,14 @@
     {
       "id": "bishops-house-indo-portuguese-museum",
       "name": "Bishop's House & Indo-Portuguese Museum",
-      "lat": 9.9633,
-      "lng": 76.2405,
+      "lat": 9.9623,
+      "lng": 76.2403,
       "address": "Fort Kochi, Kochi, Kerala",
       "era": "portuguese",
       "eraLabel": "Portuguese Cochin (1503–1663)",
       "description": "Standing on the site of a former Portuguese fort commander's residence, the Bishop's House later became the seat of the Catholic Diocese of Cochin; its grounds now house the Indo-Portuguese Museum, which displays altar silver, vestments, and devotional art from Kerala's Portuguese-era Catholic parishes. Citations: Pius Malekandathil (2001), 'Portuguese Cochin and the Maritime Trade of India, 1500–1663'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9633,76.2405"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9623,76.2403"
     },
     {
       "id": "santa-cruz-basilica",
@@ -150,68 +150,68 @@
     {
       "id": "pallipuram-fort",
       "name": "Pallipuram Fort",
-      "lat": 10.1680,
-      "lng": 76.1875,
+      "lat": 10.17,
+      "lng": 76.1809,
       "address": "Pallipuram, Vypin Island, Ernakulam District, Kerala",
       "era": "portuguese",
       "eraLabel": "Portuguese Cochin (1503–1663)",
       "description": "Built by the Portuguese in 1503 to guard the northern sea approach to Cochin's harbor, this small triangular fort is often cited as the oldest surviving European-built fort in India. It passed to the Dutch after 1663 and was later sold to Travancore's Marthanda Varma in the 18th century, making it a rare structure that changed hands across three successive colonial and princely powers. Citations: Pius Malekandathil (2001), 'Portuguese Cochin and the Maritime Trade of India, 1500–1663'; William Logan (1887), 'Malabar Manual'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.1680,76.1875"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.17,76.1809"
     },
     {
       "id": "dutch-cemetery-fort-kochi",
       "name": "Dutch Cemetery, Fort Kochi",
-      "lat": 9.9636,
-      "lng": 76.2390,
+      "lat": 9.9642,
+      "lng": 76.2383,
       "address": "Fort Kochi, Kochi, Kerala",
       "era": "dutch",
       "eraLabel": "Dutch Cochin (VOC, 1663–1795)",
       "description": "Consecrated in 1724, this is considered the oldest surviving European cemetery in India, holding the graves of Dutch East India Company officials, soldiers, and clergy who served in Cochin during the Dutch period; it later also received British-era burials before falling out of active use. Citations: A. Sreedhara Menon (1967), 'A Survey of Kerala History'; C. Achyutha Menon (1911), 'The Cochin State Manual'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9636,76.2390"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9642,76.2383"
     },
     {
       "id": "david-hall",
       "name": "David Hall",
-      "lat": 9.9662,
-      "lng": 76.2420,
+      "lat": 9.9653,
+      "lng": 76.2395,
       "address": "Fort Kochi, Kochi, Kerala",
       "era": "dutch",
       "eraLabel": "Dutch Cochin (VOC, 1663–1795)",
       "description": "A 17th-century building associated with the Dutch East India Company's commercial establishment in Cochin, David Hall takes its present name from a later Jewish trading occupant and today functions as a cultural and exhibition space, illustrating the continuity of Fort Kochi's mercantile buildings across successive trading communities. Citations: A. Sreedhara Menon (1967), 'A Survey of Kerala History'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9662,76.2420"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9653,76.2395"
     },
     {
       "id": "kottapuram-fort",
       "name": "Kottapuram Fort",
-      "lat": 10.2100,
-      "lng": 76.1850,
+      "lat": 10.1959,
+      "lng": 76.212,
       "address": "Kottapuram, Kodungallur Taluk, Thrissur District, Kerala",
       "era": "dutch",
       "eraLabel": "Dutch Cochin (VOC, 1663–1795)",
       "description": "Built by the Portuguese around 1523 near the mouth of the Periyar river to control access to Kodungallur and the historic Muziris trading region, this fort was captured by the combined forces of the Dutch East India Company and the Zamorin of Calicut in 1662, becoming a key Dutch outpost guarding the northern approach to the Cochin backwaters. Citations: Pius Malekandathil (2001), 'Portuguese Cochin and the Maritime Trade of India, 1500–1663'; William Logan (1887), 'Malabar Manual'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.2100,76.1850"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.1959,76.212"
     },
     {
       "id": "paradesi-synagogue",
       "name": "Paradesi Synagogue",
-      "lat": 9.9577,
-      "lng": 76.2610,
+      "lat": 9.9575,
+      "lng": 76.2593,
       "address": "Jew Town, Mattancherry, Kochi, Kerala",
       "era": "jewish-heritage",
       "eraLabel": "Jewish Heritage (Paradesi & Malabar Jews)",
       "description": "Built in 1568 next to the Mattancherry Palace on land granted by the Raja of Cochin, this is the oldest active synagogue in the Commonwealth of Nations. Its floor is laid with hand-painted 18th-century Chinese porcelain tiles, and its clocktower was added during the Dutch period in 1760; the congregation historically belonged to the 'Paradesi' (foreign-origin) Jewish community, distinct from Kerala's older Malabar Jewish settlements. Citations: J.B. Segal (1993), 'A History of the Jews of Cochin'; Nathan Katz (2000), 'Who Are the Jews of India?'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9577,76.2610"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9575,76.2593"
     },
     {
       "id": "kadavumbagam-synagogue",
       "name": "Kadavumbagam Synagogue (former)",
       "lat": 9.9585,
-      "lng": 76.2600,
+      "lng": 76.26,
       "address": "Jew Town, Mattancherry, Kochi, Kerala",
       "era": "jewish-heritage",
       "eraLabel": "Jewish Heritage (Paradesi & Malabar Jews)",
@@ -222,32 +222,32 @@
     {
       "id": "chennamangalam-synagogue",
       "name": "Chennamangalam Synagogue",
-      "lat": 10.1400,
-      "lng": 76.2650,
+      "lat": 10.1797,
+      "lng": 76.2097,
       "address": "Chennamangalam, Ernakulam District, Kerala",
       "era": "jewish-heritage",
       "eraLabel": "Jewish Heritage (Paradesi & Malabar Jews)",
       "description": "Built in 1614 and restored as a heritage museum by the Kerala government in 2006, this synagogue served one of Kerala's oldest Malabar Jewish settlements near Kodungallur, part of a network of Jewish communities that historians trace back through Cochin's medieval spice trade. Citations: J.B. Segal (1993), 'A History of the Jews of Cochin'; Nathan Katz (2000), 'Who Are the Jews of India?'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.1400,76.2650"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=10.1797,76.2097"
     },
     {
       "id": "hill-palace-tripunithura",
       "name": "Hill Palace",
-      "lat": 9.9483,
-      "lng": 76.3467,
+      "lat": 9.9518,
+      "lng": 76.3614,
       "address": "Tripunithura, Ernakulam District, Kerala",
       "era": "princely-state",
       "eraLabel": "British Paramountcy / Princely State of Cochin (1795–1947)",
       "description": "Completed in 1865 as the official residence of the Cochin Maharajas under British paramountcy, this 49-acre complex of 49 buildings is the largest palace complex in Kerala and now houses an archaeological museum. Its construction followed decades in which the Cochin state operated as a British-protected princely state, a status set in motion after the 1776 Mysorean invasion under Hyder Ali and Tipu Sultan forced the reigning Raja to flee to Travancore for protection before Cochin came under East India Company protection in 1791–95. Citations: C. Achyutha Menon (1911), 'The Cochin State Manual'; William Logan (1887), 'Malabar Manual'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9483,76.3467"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9518,76.3614"
     },
     {
       "id": "willingdon-island-cochin-port",
       "name": "Willingdon Island & Cochin Port Trust",
       "lat": 9.9647,
-      "lng": 76.2660,
+      "lng": 76.266,
       "address": "Willingdon Island, Kochi, Kerala",
       "era": "princely-state",
       "eraLabel": "British Paramountcy / Princely State of Cochin (1795–1947)",
@@ -258,26 +258,26 @@
     {
       "id": "vypin-lighthouse",
       "name": "Vypin Lighthouse",
-      "lat": 9.9870,
-      "lng": 76.2460,
+      "lat": 9.9984,
+      "lng": 76.2215,
       "address": "Vypin Island, Ernakulam District, Kerala",
       "era": "princely-state",
       "eraLabel": "British Paramountcy / Princely State of Cochin (1795–1947)",
       "description": "Built to guide shipping into the Cochin harbor mouth as maritime traffic grew under British-era port development, this lighthouse on the northern tip of Vypin Island is one of several navigational structures erected alongside the Willingdon Island port works to serve the expanding colonial-era Cochin trade. Citations: Robert Bristow (1959), 'Cochin Saga'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9870,76.2460"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9984,76.2215"
     },
     {
       "id": "durbar-hall-ernakulam",
       "name": "Durbar Hall, Ernakulam",
-      "lat": 9.9816,
-      "lng": 76.2841,
+      "lat": 9.9687,
+      "lng": 76.2842,
       "address": "Durbar Hall Road, Ernakulam, Kochi, Kerala",
       "era": "post-independence",
       "eraLabel": "Integration into Kerala (1947–1956 onward)",
       "description": "Originally built in the late 19th century as a ceremonial hall of the Kingdom of Cochin for royal durbars and official functions, this building's later civic life mirrors Cochin's own political transition: the princely state acceded to the Indian Union in 1949 to form Travancore-Cochin, which in turn merged into the newly formed state of Kerala in 1956. The hall today houses the Durbar Hall Art Gallery, run by Kerala's Lalithakala Akademi. Citations: A. Sreedhara Menon (1967), 'A Survey of Kerala History'; C. Achyutha Menon (1911), 'The Cochin State Manual'.",
       "images": [],
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9816,76.2841"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=9.9687,76.2842"
     }
   ]
 }

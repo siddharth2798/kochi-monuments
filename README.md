@@ -61,7 +61,7 @@ This list is a starting bibliography, not exhaustive — contributions of better
 
 ## Data notes
 
-Coordinates in `monuments.json` were placed from general geographic knowledge and should be spot-checked against a map or GPS survey before treating them as precise; corrections are welcome via pull request. The `mysorean` era currently has no monument tagged to it directly — the 1776 Mysorean invasion is referenced within the Kingdom of Cochin and Hill Palace entries instead of a fabricated standalone site, since no discrete surviving structure could be confidently identified.
+Coordinates were originally placed from general geographic knowledge, then cross-checked against OpenStreetMap Nominatim and Wikipedia/Wikidata coordinates and corrected where those sources gave a materially different, named-POI location — this caught several meaningful errors (e.g. Paradesi Synagogue previously sat ~190m off, over water; Vypin Lighthouse and Kottapuram Fort were off by 3km+). Sites without a confidently-matched named source (e.g. Fort Immanuel, largely demolished) are still best-effort estimates. Further corrections are welcome via pull request. The `mysorean` era currently has no monument tagged to it directly — the 1776 Mysorean invasion is referenced within the Kingdom of Cochin and Hill Palace entries instead of a fabricated standalone site, since no discrete surviving structure could be confidently identified.
 
 ## Tech
 
