@@ -35,6 +35,19 @@
     </div>
   </header>
 
+  <section class="timeline-bar" aria-label="Territorial history timeline">
+    <div class="timeline-heading">
+      <h2>How Kochi Grew</h2>
+      <div class="mode-toggle" role="tablist" aria-label="Browsing mode">
+        <button type="button" id="mode-timeline-btn" class="mode-btn" role="tab" aria-selected="true">Timeline</button>
+        <button type="button" id="mode-browse-btn" class="mode-btn" role="tab" aria-selected="false">Browse all eras</button>
+      </div>
+    </div>
+    <p class="timeline-disclaimer" id="timeline-disclaimer">Boundaries before 1866 are illustrative approximations — no surveyed borders exist for these historical polities.</p>
+    <div class="timeline-chips" id="timeline-chips" role="tablist" aria-label="Select a historical era"></div>
+    <p class="timeline-caption" id="timeline-caption"></p>
+  </section>
+
   <main class="layout">
     <aside class="panel">
       <div class="filter-block">
@@ -45,11 +58,13 @@
           </svg>
           <input type="search" id="monument-search" class="search-input" placeholder="Search monuments…" aria-label="Search monuments by name">
         </div>
-        <div class="filter-actions">
-          <button id="select-all" type="button">Select all</button>
-          <button id="deselect-all" type="button">Deselect all</button>
+        <div id="browse-controls" hidden>
+          <div class="filter-actions">
+            <button id="select-all" type="button">Select all</button>
+            <button id="deselect-all" type="button">Deselect all</button>
+          </div>
+          <ul id="filter-list" class="filter-list" aria-label="Filter by era"></ul>
         </div>
-        <ul id="filter-list" class="filter-list" aria-label="Filter by era"></ul>
       </div>
       <ul id="monument-list" class="monument-list" aria-label="Monuments"></ul>
       <p id="empty-state" class="empty-state" hidden>No monuments match your filters or search.</p>

@@ -1,0 +1,745 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "chera-unified",
+        "entity": "Chera Kingdom (Kodungallur)",
+        "entity_id": "chera-kingdom",
+        "confidence": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.5217,
+              10.05
+            ],
+            [
+              76.445,
+              10.1901
+            ],
+            [
+              76.26,
+              10.2482
+            ],
+            [
+              76.075,
+              10.1901
+            ],
+            [
+              75.9983,
+              10.05
+            ],
+            [
+              76.075,
+              9.9099
+            ],
+            [
+              76.26,
+              9.8518
+            ],
+            [
+              76.445,
+              9.9099
+            ],
+            [
+              76.5217,
+              10.05
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "fragmentation",
+        "entity": "Edappally Swaroopam",
+        "entity_id": "edappally-swaroopam",
+        "confidence": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.3628,
+              10.0277
+            ],
+            [
+              76.3015,
+              10.0769
+            ],
+            [
+              76.2164,
+              10.0681
+            ],
+            [
+              76.1717,
+              10.0081
+            ],
+            [
+              76.201,
+              9.942
+            ],
+            [
+              76.2823,
+              9.9195
+            ],
+            [
+              76.3543,
+              9.9577
+            ],
+            [
+              76.3628,
+              10.0277
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "fragmentation",
+        "entity": "Kodungallur (declining Chera authority)",
+        "entity_id": "kodungallur-remnant",
+        "confidence": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.2604,
+              10.22
+            ],
+            [
+              76.2302,
+              10.2668
+            ],
+            [
+              76.1698,
+              10.2668
+            ],
+            [
+              76.1396,
+              10.22
+            ],
+            [
+              76.1698,
+              10.1732
+            ],
+            [
+              76.2302,
+              10.1732
+            ],
+            [
+              76.2604,
+              10.22
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "cochin-formed",
+        "entity": "Kingdom of Cochin",
+        "entity_id": "kingdom-of-cochin",
+        "confidence": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.4774,
+              10.015
+            ],
+            [
+              76.3991,
+              10.1081
+            ],
+            [
+              76.257,
+              10.132
+            ],
+            [
+              76.1341,
+              10.0727
+            ],
+            [
+              76.1026,
+              9.965
+            ],
+            [
+              76.1809,
+              9.8719
+            ],
+            [
+              76.323,
+              9.848
+            ],
+            [
+              76.4459,
+              9.9073
+            ],
+            [
+              76.4774,
+              10.015
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "paliam-era",
+        "entity": "Kingdom of Cochin",
+        "entity_id": "kingdom-of-cochin",
+        "confidence": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.4774,
+              10.015
+            ],
+            [
+              76.3991,
+              10.1081
+            ],
+            [
+              76.257,
+              10.132
+            ],
+            [
+              76.1341,
+              10.0727
+            ],
+            [
+              76.1026,
+              9.965
+            ],
+            [
+              76.1809,
+              9.8719
+            ],
+            [
+              76.323,
+              9.848
+            ],
+            [
+              76.4459,
+              9.9073
+            ],
+            [
+              76.4774,
+              10.015
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "paliam-era",
+        "entity": "Paliam fief (Chendamangalam)",
+        "entity_id": "paliam-fief",
+        "confidence": 2
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.2533,
+              10.178
+            ],
+            [
+              76.2307,
+              10.2131
+            ],
+            [
+              76.1853,
+              10.2131
+            ],
+            [
+              76.1627,
+              10.178
+            ],
+            [
+              76.1853,
+              10.1429
+            ],
+            [
+              76.2307,
+              10.1429
+            ],
+            [
+              76.2533,
+              10.178
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "colonial-dual",
+        "entity": "Fort Kochi (colonial enclave)",
+        "entity_id": "fort-kochi-enclave",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.2662,
+              9.9712
+            ],
+            [
+              76.2481,
+              9.9839
+            ],
+            [
+              76.2234,
+              9.9792
+            ],
+            [
+              76.2168,
+              9.9618
+            ],
+            [
+              76.2349,
+              9.9491
+            ],
+            [
+              76.2596,
+              9.9538
+            ],
+            [
+              76.2662,
+              9.9712
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "colonial-dual",
+        "entity": "Princely State of Cochin",
+        "entity_id": "princely-state-cochin",
+        "confidence": 2
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.4815,
+              10.0142
+            ],
+            [
+              76.4057,
+              10.1044
+            ],
+            [
+              76.268,
+              10.1275
+            ],
+            [
+              76.149,
+              10.0701
+            ],
+            [
+              76.1185,
+              9.9658
+            ],
+            [
+              76.1943,
+              9.8756
+            ],
+            [
+              76.332,
+              9.8525
+            ],
+            [
+              76.451,
+              9.9099
+            ],
+            [
+              76.4815,
+              10.0142
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "unification-1967",
+        "entity": "Fort Cochin Municipality",
+        "entity_id": "fort-cochin-muni",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.2645,
+              9.9712
+            ],
+            [
+              76.2477,
+              9.9839
+            ],
+            [
+              76.2247,
+              9.9792
+            ],
+            [
+              76.2185,
+              9.9618
+            ],
+            [
+              76.2353,
+              9.9491
+            ],
+            [
+              76.2583,
+              9.9538
+            ],
+            [
+              76.2645,
+              9.9712
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "unification-1967",
+        "entity": "Mattancherry Municipality",
+        "entity_id": "mattancherry-muni",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.2812,
+              9.9584
+            ],
+            [
+              76.2702,
+              9.974
+            ],
+            [
+              76.2482,
+              9.974
+            ],
+            [
+              76.2372,
+              9.9584
+            ],
+            [
+              76.2482,
+              9.9428
+            ],
+            [
+              76.2702,
+              9.9428
+            ],
+            [
+              76.2812,
+              9.9584
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "unification-1967",
+        "entity": "Ernakulam Municipality",
+        "entity_id": "ernakulam-muni",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.317,
+              9.9816
+            ],
+            [
+              76.3006,
+              10.005
+            ],
+            [
+              76.2676,
+              10.005
+            ],
+            [
+              76.2512,
+              9.9816
+            ],
+            [
+              76.2676,
+              9.9582
+            ],
+            [
+              76.3006,
+              9.9582
+            ],
+            [
+              76.317,
+              9.9816
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "unification-1967",
+        "entity": "Willingdon Island",
+        "entity_id": "willingdon-island",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.2954,
+              9.9561
+            ],
+            [
+              76.2754,
+              9.9642
+            ],
+            [
+              76.2554,
+              9.9561
+            ],
+            [
+              76.2554,
+              9.9399
+            ],
+            [
+              76.2754,
+              9.9318
+            ],
+            [
+              76.2954,
+              9.9399
+            ],
+            [
+              76.2954,
+              9.9561
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "unification-1967",
+        "entity": "Palluruthy Panchayat",
+        "entity_id": "palluruthy-panch",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.2921,
+              9.928
+            ],
+            [
+              76.2801,
+              9.9452
+            ],
+            [
+              76.2559,
+              9.9452
+            ],
+            [
+              76.2439,
+              9.928
+            ],
+            [
+              76.2559,
+              9.9108
+            ],
+            [
+              76.2801,
+              9.9108
+            ],
+            [
+              76.2921,
+              9.928
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "unification-1967",
+        "entity": "Vennala Panchayat",
+        "entity_id": "vennala-panch",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.3292,
+              10.008
+            ],
+            [
+              76.3171,
+              10.0252
+            ],
+            [
+              76.2929,
+              10.0252
+            ],
+            [
+              76.2808,
+              10.008
+            ],
+            [
+              76.2929,
+              9.9908
+            ],
+            [
+              76.3171,
+              9.9908
+            ],
+            [
+              76.3292,
+              10.008
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "unification-1967",
+        "entity": "Vyttila Panchayat",
+        "entity_id": "vyttila-panch",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.3411,
+              9.97
+            ],
+            [
+              76.3291,
+              9.9872
+            ],
+            [
+              76.3049,
+              9.9872
+            ],
+            [
+              76.2929,
+              9.97
+            ],
+            [
+              76.3049,
+              9.9528
+            ],
+            [
+              76.3291,
+              9.9528
+            ],
+            [
+              76.3411,
+              9.97
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "unification-1967",
+        "entity": "Edappally Panchayat",
+        "entity_id": "edappally-panch",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.3355,
+              10.0247
+            ],
+            [
+              76.3218,
+              10.0442
+            ],
+            [
+              76.2944,
+              10.0442
+            ],
+            [
+              76.2807,
+              10.0247
+            ],
+            [
+              76.2944,
+              10.0052
+            ],
+            [
+              76.3218,
+              10.0052
+            ],
+            [
+              76.3355,
+              10.0247
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

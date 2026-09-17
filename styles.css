@@ -95,6 +95,98 @@ body {
   font-size: 0.9rem;
 }
 
+.timeline-bar {
+  padding: 0.85rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.timeline-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+}
+
+.timeline-heading h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 0.3rem;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15rem;
+}
+
+.mode-btn {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.mode-btn[aria-selected="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.timeline-disclaimer {
+  margin: 0.4rem 0 0;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.timeline-bar[data-mode="browse"] .timeline-disclaimer,
+.timeline-bar[data-mode="browse"] .timeline-chips,
+.timeline-bar[data-mode="browse"] .timeline-caption {
+  display: none;
+}
+
+.timeline-chips {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+  margin-top: 0.5rem;
+}
+
+.timeline-chip {
+  flex-shrink: 0;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.82rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.timeline-chip:hover {
+  border-color: var(--accent);
+}
+
+.timeline-chip[aria-selected="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+
+.timeline-caption {
+  margin: 0.55rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  max-width: 70ch;
+}
+
 .layout {
   display: flex;
   min-height: 70vh;
@@ -211,6 +303,14 @@ body {
   border-color: var(--accent);
 }
 
+.monument-card.dimmed {
+  opacity: 0.45;
+}
+
+.monument-card.dimmed:hover {
+  opacity: 0.75;
+}
+
 .monument-card h3 {
   margin: 0 0 0.2rem;
   font-size: 0.9rem;
@@ -283,7 +383,11 @@ body {
 .monument-pin-svg {
   display: block;
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
-  transition: transform 0.1s ease;
+  transition: transform 0.1s ease, opacity 0.15s ease;
+}
+
+.monument-marker.dimmed .monument-pin-svg {
+  opacity: 0.3;
 }
 
 .monument-marker:hover .monument-pin-svg,

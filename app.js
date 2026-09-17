@@ -15,11 +15,82 @@ const state = {
   activeEras: new Set(),
   searchQuery: "",
   map: null,
+  territories: null,
+  activeTerritoryEra: null,
+  mode: "timeline", // "timeline" (guided, dims non-relevant monuments) or "browse" (free multi-select)
 };
 
 const MAP_STYLES = {
   light: "https://tiles.openfreemap.org/styles/liberty",
   dark: "https://tiles.openfreemap.org/styles/dark",
+};
+
+// Territory polygons in territories.json are hand-drawn illustrative approximations, not
+// surveyed boundaries — medieval Kerala polities didn't have any. `confidence` (1 = no fixed
+// borders at all, 2 = a real but loosely-documented sphere of influence, 3 = an administratively
+// defined area, e.g. an 1866+ municipality) drives solid-vs-dashed line styling below.
+const TERRITORY_ERAS = [
+  {
+    id: "chera-unified",
+    label: "Before 1102",
+    caption: "Kodungallur (Mahodayapuram) governs the whole region as the Chera dynasty's capital — no separate Cochin polity exists yet.",
+  },
+  {
+    id: "fragmentation",
+    label: "1102–1341",
+    caption: "The Chera line fragments into swaroopams. Edappally Swaroopam holds Kochi and Vypin; the Perumpadappu Swaroopam, based far north near Ponnani, is repeatedly pushed south by the Zamorin of Calicut.",
+  },
+  {
+    id: "cochin-formed",
+    label: "1341–1632",
+    caption: "Edappally cedes Kochi and Vypin to the Perumpadappu family through marriage alliances — they become the Cochin Rajas, just as a 1341 flood silts up Kodungallur's harbor and opens a new one at Kochi.",
+  },
+  {
+    id: "paliam-era",
+    label: "1632–1809",
+    caption: "The Paliath Achans serve as hereditary Prime Ministers of Cochin from Chendamangalam — holding so much land that a saying held “half of Cochin belongs to the Paliam family.”",
+  },
+  {
+    id: "colonial-dual",
+    label: "1503–1947",
+    caption: "Fort Kochi becomes a directly-ruled colonial enclave — Portuguese, then Dutch, then a British municipality from 1866 — while Mattancherry, Ernakulam, and Tripunithura remain the semi-autonomous princely State of Cochin.",
+  },
+  {
+    id: "unification-1967",
+    label: "1967",
+    caption: "Kochi Corporation forms on 1 November 1967, merging the Fort Cochin, Mattancherry, and Ernakulam municipalities with Willingdon Island and four panchayats — Palluruthy, Vennala, Vyttila, and Edappally. Fort Kochi's own council opposed the merger; the state legislature overrode it.",
+  },
+];
+
+const TERRITORY_ENTITY_COLORS = {
+  "chera-kingdom": "#8d6e63",
+  "edappally-swaroopam": "#0288d1",
+  "kodungallur-remnant": "#8d6e63",
+  "kingdom-of-cochin": "#c62828",
+  "paliam-fief": "#6a1b9a",
+  "fort-kochi-enclave": "#1565c0",
+  "princely-state-cochin": "#2e7d32",
+  "fort-cochin-muni": "#1565c0",
+  "mattancherry-muni": "#c62828",
+  "ernakulam-muni": "#00838f",
+  "willingdon-island": "#2e7d32",
+  "palluruthy-panch": "#ef6c00",
+  "vennala-panch": "#6a1b9a",
+  "vyttila-panch": "#455a64",
+  "edappally-panch": "#0288d1",
+};
+
+// Which of the 8 monument-era tags are relevant to each of the 6 territory eras. The two
+// taxonomies were never designed to align 1:1 (e.g. "Kingdom of Cochin" as a monument era spans
+// both the "cochin-formed" and "paliam-era" territory steps) — this mapping drives dimming
+// (visual emphasis), not hard filtering, precisely because it's an approximate correspondence.
+const TERRITORY_TO_MONUMENT_ERAS = {
+  "chera-unified": ["pre-cochin"],
+  "fragmentation": ["pre-cochin"],
+  "cochin-formed": ["kingdom-of-cochin"],
+  "paliam-era": ["kingdom-of-cochin"],
+  "colonial-dual": ["portuguese", "dutch", "princely-state", "jewish-heritage", "mysorean"],
+  "unification-1967": ["post-independence"],
 };
 
 // Below this zoom, marker name labels are hidden (dots only) to avoid label collisions
@@ -143,6 +214,96 @@ function updateMarkerLabelVisibility() {
   });
 }
 
+function territoryColorExpression() {
+  const expr = ["match", ["get", "entity_id"]];
+  Object.entries(TERRITORY_ENTITY_COLORS).forEach(([id, color]) => {
+    expr.push(id, color);
+  });
+  expr.push("#999999"); // fallback for any untagged entity
+  return expr;
+}
+
+// Adds the territories source + fill/line layers if not already present on the current style.
+// Must be called on every "style.load" (not just the first) — setStyle() (used by the dark-mode
+// toggle) wipes all custom sources/layers, so a theme switch would otherwise silently drop them.
+function ensureTerritoryLayers(map) {
+  if (!state.territories || map.getSource("territories")) return;
+
+  map.addSource("territories", { type: "geojson", data: state.territories });
+
+  // Insert below the base style's own labels/roads (the first symbol layer) so town/road
+  // names stay legible on top of the territory tint, instead of the tint drawing over them.
+  const firstSymbolLayer = map.getStyle().layers.find((l) => l.type === "symbol");
+  const beforeId = firstSymbolLayer ? firstSymbolLayer.id : undefined;
+
+  const eraFilter = ["==", ["get", "era"], state.activeTerritoryEra];
+  const colorExpr = territoryColorExpression();
+
+  map.addLayer({
+    id: "territories-fill",
+    type: "fill",
+    source: "territories",
+    filter: eraFilter,
+    paint: { "fill-color": colorExpr, "fill-opacity": 0.4 },
+  }, beforeId);
+
+  // Two line layers instead of one, rather than a data-driven line-dasharray (unreliable
+  // support for expressions on that property) — confidence 1-2 (no real surveyed border) get
+  // a dashed outline, confidence 3 (an administratively defined area) gets a solid one.
+  map.addLayer({
+    id: "territories-line-approx",
+    type: "line",
+    source: "territories",
+    filter: ["all", eraFilter, ["<", ["get", "confidence"], 3]],
+    paint: { "line-color": colorExpr, "line-width": 2.5, "line-dasharray": [3, 2] },
+  }, beforeId);
+
+  map.addLayer({
+    id: "territories-line-solid",
+    type: "line",
+    source: "territories",
+    filter: ["all", eraFilter, ["==", ["get", "confidence"], 3]],
+    paint: { "line-color": colorExpr, "line-width": 2.5 },
+  }, beforeId);
+}
+
+function setTerritoryEra(eraId) {
+  state.activeTerritoryEra = eraId;
+
+  const map = state.map;
+  if (map && map.getSource("territories")) {
+    const eraFilter = ["==", ["get", "era"], eraId];
+    map.setFilter("territories-fill", eraFilter);
+    map.setFilter("territories-line-approx", ["all", eraFilter, ["<", ["get", "confidence"], 3]]);
+    map.setFilter("territories-line-solid", ["all", eraFilter, ["==", ["get", "confidence"], 3]]);
+  }
+
+  document.querySelectorAll(".timeline-chip").forEach((chip) => {
+    chip.setAttribute("aria-selected", String(chip.dataset.eraId === eraId));
+  });
+  const caption = document.getElementById("timeline-caption");
+  const era = TERRITORY_ERAS.find((e) => e.id === eraId);
+  if (caption && era) caption.textContent = era.caption;
+
+  if (state.mode === "timeline") applyFilter();
+}
+
+function buildTimelineChips() {
+  const container = document.getElementById("timeline-chips");
+  container.innerHTML = "";
+  TERRITORY_ERAS.forEach((era) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "timeline-chip";
+    chip.textContent = era.label;
+    chip.dataset.eraId = era.id;
+    chip.setAttribute("role", "tab");
+    chip.setAttribute("aria-selected", String(era.id === state.activeTerritoryEra));
+    chip.addEventListener("click", () => setTerritoryEra(era.id));
+    container.appendChild(chip);
+  });
+}
+
 function buildFilterList(eras) {
   const list = document.getElementById("filter-list");
   list.innerHTML = "";
@@ -174,19 +335,58 @@ function applyFilter() {
   const query = state.searchQuery.trim().toLowerCase();
   let anyVisible = false;
 
-  state.markers.forEach(({ marker, monument }) => {
-    const visible = state.activeEras.has(monument.era) && (!query || monument.name.toLowerCase().includes(query));
-    marker.getElement().style.display = visible ? "" : "none";
-  });
-
-  document.querySelectorAll(".monument-card").forEach((card) => {
-    const visible = state.activeEras.has(card.dataset.era) && (!query || card.dataset.name.includes(query));
-    card.style.display = visible ? "" : "none";
-    if (visible) anyVisible = true;
-  });
+  if (state.mode === "browse") {
+    // Free multi-select: era checkboxes + search both hard-filter (hide non-matching).
+    state.markers.forEach(({ marker, monument }) => {
+      const visible = state.activeEras.has(monument.era) && (!query || monument.name.toLowerCase().includes(query));
+      const el = marker.getElement();
+      el.style.display = visible ? "" : "none";
+      el.classList.remove("dimmed");
+    });
+    document.querySelectorAll(".monument-card").forEach((card) => {
+      const visible = state.activeEras.has(card.dataset.era) && (!query || card.dataset.name.includes(query));
+      card.style.display = visible ? "" : "none";
+      card.classList.remove("dimmed");
+      if (visible) anyVisible = true;
+    });
+  } else {
+    // Timeline: search still hides non-matches, but era-relevance only dims (never hides) —
+    // the territory/monument era taxonomies are an approximate correspondence, not a strict
+    // filter, so a monument outside the "relevant" set stays reachable, just visually secondary.
+    const relevant = new Set(TERRITORY_TO_MONUMENT_ERAS[state.activeTerritoryEra] || []);
+    state.markers.forEach(({ marker, monument }) => {
+      const matchesSearch = !query || monument.name.toLowerCase().includes(query);
+      const el = marker.getElement();
+      el.style.display = matchesSearch ? "" : "none";
+      el.classList.toggle("dimmed", matchesSearch && !relevant.has(monument.era));
+    });
+    document.querySelectorAll(".monument-card").forEach((card) => {
+      const matchesSearch = !query || card.dataset.name.includes(query);
+      card.style.display = matchesSearch ? "" : "none";
+      card.classList.toggle("dimmed", matchesSearch && !relevant.has(card.dataset.era));
+      if (matchesSearch) anyVisible = true;
+    });
+  }
 
   const emptyState = document.getElementById("empty-state");
   if (emptyState) emptyState.hidden = anyVisible;
+}
+
+function setMode(mode) {
+  state.mode = mode;
+  document.getElementById("mode-timeline-btn").setAttribute("aria-selected", String(mode === "timeline"));
+  document.getElementById("mode-browse-btn").setAttribute("aria-selected", String(mode === "browse"));
+  document.querySelector(".timeline-bar").dataset.mode = mode;
+  document.getElementById("browse-controls").hidden = mode !== "browse";
+
+  if (state.map && state.map.getLayer("territories-fill")) {
+    const visibility = mode === "timeline" ? "visible" : "none";
+    state.map.setLayoutProperty("territories-fill", "visibility", visibility);
+    state.map.setLayoutProperty("territories-line-approx", "visibility", visibility);
+    state.map.setLayoutProperty("territories-line-solid", "visibility", visibility);
+  }
+
+  applyFilter();
 }
 
 function setAllCheckboxes(checked) {
@@ -328,9 +528,13 @@ function hideLoadingOverlay() {
 }
 
 async function init() {
-  const res = await fetch("monuments.json");
-  const data = await res.json();
+  const [monumentsRes, territoriesRes] = await Promise.all([
+    fetch("monuments.json"),
+    fetch("territories.json"),
+  ]);
+  const data = await monumentsRes.json();
   state.monuments = data.monuments;
+  state.territories = await territoriesRes.json();
 
   const eraOrder = [...new Set(state.monuments.map((m) => m.era))].map((era) => {
     const match = state.monuments.find((m) => m.era === era);
@@ -347,6 +551,10 @@ async function init() {
   buildMonumentList(state.monuments);
   injectStructuredData(state.monuments);
 
+  state.activeTerritoryEra = TERRITORY_ERAS[0].id;
+  buildTimelineChips();
+  setTerritoryEra(state.activeTerritoryEra);
+
   const initialTheme = getPreferredTheme();
   applyThemeDom(initialTheme);
 
@@ -360,6 +568,19 @@ async function init() {
     maxBounds: computeBounds(state.monuments, 0.12),
   });
   state.map = map;
+
+  // "style.load" fires for the initial style AND every subsequent setStyle() (the dark-mode
+  // toggle), which wipes custom sources/layers — re-adding them here every time keeps the
+  // territory overlay working across a theme switch, not just on first load.
+  map.on("style.load", () => {
+    ensureTerritoryLayers(map);
+    // A theme switch re-adds these layers at their default (visible) layout state — re-sync to
+    // whatever mode is actually active, in case it happened to be "browse" (territories hidden).
+    const visibility = state.mode === "timeline" ? "visible" : "none";
+    map.setLayoutProperty("territories-fill", "visibility", visibility);
+    map.setLayoutProperty("territories-line-approx", "visibility", visibility);
+    map.setLayoutProperty("territories-line-solid", "visibility", visibility);
+  });
 
   // Markers are plain DOM overlays independent of the style/tiles, so they don't need to wait
   // for map "load" — added immediately, they also survive the setStyle() calls used to switch
@@ -411,6 +632,8 @@ async function init() {
     state.searchQuery = e.target.value;
     applyFilter();
   });
+  document.getElementById("mode-timeline-btn").addEventListener("click", () => setMode("timeline"));
+  document.getElementById("mode-browse-btn").addEventListener("click", () => setMode("browse"));
 }
 
 init();

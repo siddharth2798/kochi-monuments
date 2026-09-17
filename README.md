@@ -23,6 +23,14 @@ The map is locked to this region (`maxBounds` in `app.js`) — panning and zoomi
 
 Other UX details: a search box filters the monument list by name; marker name labels are hidden below zoom 12 to avoid overlapping near dense clusters (e.g. Kodungallur); clicking a list card flies the map to that marker; era filters persist in `localStorage` across reloads; every monument has a shareable `?monument=<id>` URL that reopens its detail card on load; the detail card has "Copy citation" and "Copy link" buttons; list cards and markers are keyboard-operable (Tab + Enter/Space).
 
+## How Kochi Grew (territorial history timeline)
+
+A second, complementary way to browse the site: a timeline bar with six era steps tracing how the region's political geography changed — Chera-era unified administration, fragmentation into swaroopams (Edappally holding Kochi/Vypin), the Kingdom of Cochin's formation, the Paliam family's fief at Chendamangalam, Fort Kochi's colonial-enclave/princely-state split, and the 1967 municipal merger that formed the modern Kochi Corporation. See `territories.json` for the underlying polygons and `README.md`'s citations for the historical sourcing behind each step (also documented inline as `TERRITORY_ERAS` captions in `app.js`).
+
+These are **hand-drawn illustrative approximations, not surveyed boundaries** — medieval Kerala polities didn't have any. Low-confidence eras render with a dashed outline; the 1967 merger (a real administrative record) renders solid. A **Timeline / Browse all eras** toggle switches between two modes:
+- **Timeline** (default): shows the selected era's territory overlay, and dims (not hides) monuments whose era tag isn't relevant to that period — relevance is a many-to-many mapping (`TERRITORY_TO_MONUMENT_ERAS`) since the two era taxonomies were never designed to align 1:1.
+- **Browse all eras**: today's original free multi-select checkbox browsing, territory overlay hidden, no dimming.
+
 ## Running locally
 
 ```
