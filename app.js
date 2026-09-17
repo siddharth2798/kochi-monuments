@@ -350,28 +350,33 @@ async function init() {
   });
   state.map = map;
 
-  map.on("load", () => {
-    // Marker elements are plain DOM overlays, independent of the style, so they
-    // survive the setStyle() calls used to switch between light/dark tiles.
-    state.monuments.forEach((m) => {
-      const el = createMonumentMarkerElement(m, ERA_COLORS[m.era] || "#999");
-      const marker = new maplibregl.Marker({ element: el, anchor: "left" })
-        .setLngLat([m.lng, m.lat])
-        .addTo(map);
-      state.markers.push({ marker, monument: m });
-    });
-    applyFilter();
-    updateMarkerLabelVisibility();
-    hideLoadingOverlay();
-
-    const deepLinkedId = new URLSearchParams(location.search).get("monument");
-    const deepLinked = deepLinkedId && state.monuments.find((m) => m.id === deepLinkedId);
-    if (deepLinked) {
-      flyToMonument(deepLinked);
-      openDetail(deepLinked, { updateUrl: false });
-    }
+  // Markers are plain DOM overlays independent of the style/tiles, so they don't need to wait
+  // for map "load" — added immediately, they also survive the setStyle() calls used to switch
+  // between light/dark tiles. Waiting on "load" here previously meant a backgrounded or
+  // throttled tab (e.g. a link opened in a new background tab) could leave the loading
+  // overlay — and the markers/list — stuck indefinitely even once the tab was brought forward.
+  state.monuments.forEach((m) => {
+    const el = createMonumentMarkerElement(m, ERA_COLORS[m.era] || "#999");
+    const marker = new maplibregl.Marker({ element: el, anchor: "left" })
+      .setLngLat([m.lng, m.lat])
+      .addTo(map);
+    state.markers.push({ marker, monument: m });
   });
+  applyFilter();
+  updateMarkerLabelVisibility();
   map.on("zoom", updateMarkerLabelVisibility);
+
+  const deepLinkedId = new URLSearchParams(location.search).get("monument");
+  const deepLinked = deepLinkedId && state.monuments.find((m) => m.id === deepLinkedId);
+  if (deepLinked) {
+    flyToMonument(deepLinked);
+    openDetail(deepLinked, { updateUrl: false });
+  }
+
+  // Hide the spinner once the map reports itself ready, but never wait forever — a
+  // backgrounded/throttled tab can delay "load" well past what's reasonable to show a spinner for.
+  map.once("load", hideLoadingOverlay);
+  setTimeout(hideLoadingOverlay, 6000);
 
   document.getElementById("select-all").addEventListener("click", () => setAllCheckboxes(true));
   document.getElementById("deselect-all").addEventListener("click", () => setAllCheckboxes(false));
