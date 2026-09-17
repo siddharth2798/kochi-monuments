@@ -35,6 +35,11 @@
 
 * { box-sizing: border-box; }
 
+button {
+  font-family: inherit;
+  color: inherit;
+}
+
 body {
   margin: 0;
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -183,14 +188,33 @@ body {
   flex: 1;
 }
 
-.monument-pin {
-  width: 16px;
-  height: 16px;
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-  border: 2px solid #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+.monument-marker {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   cursor: pointer;
+}
+
+.monument-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+}
+
+.monument-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  text-shadow:
+    -1px -1px 1px rgba(0,0,0,0.85),
+    1px -1px 1px rgba(0,0,0,0.85),
+    -1px 1px 1px rgba(0,0,0,0.85),
+    1px 1px 1px rgba(0,0,0,0.85),
+    0 0 4px rgba(0,0,0,0.85);
 }
 
 .detail-overlay {

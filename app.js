@@ -52,10 +52,20 @@ function setTheme(theme) {
   }
 }
 
-function createMonumentPinElement(color) {
+function createMonumentMarkerElement(monument, color) {
   const el = document.createElement("div");
-  el.className = "monument-pin";
-  el.style.background = color;
+  el.className = "monument-marker";
+
+  const dot = document.createElement("span");
+  dot.className = "monument-dot";
+  dot.style.background = color;
+
+  const label = document.createElement("span");
+  label.className = "monument-label";
+  label.textContent = monument.name;
+
+  el.appendChild(dot);
+  el.appendChild(label);
   return el;
 }
 
@@ -182,9 +192,9 @@ async function init() {
     // Marker elements are plain DOM overlays, independent of the style, so they
     // survive the setStyle() calls used to switch between light/dark tiles.
     state.monuments.forEach((m) => {
-      const el = createMonumentPinElement(ERA_COLORS[m.era] || "#999");
+      const el = createMonumentMarkerElement(m, ERA_COLORS[m.era] || "#999");
       el.addEventListener("click", () => openDetail(m));
-      const marker = new maplibregl.Marker({ element: el, anchor: "bottom" })
+      const marker = new maplibregl.Marker({ element: el, anchor: "left" })
         .setLngLat([m.lng, m.lat])
         .addTo(map);
       state.markers.push({ marker, monument: m });
