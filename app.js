@@ -13,6 +13,7 @@ const state = {
   monuments: [],
   markers: [],
   activeEras: new Set(),
+  searchQuery: "",
   map: null,
 };
 
@@ -21,7 +22,12 @@ const MAP_STYLES = {
   dark: "https://tiles.openfreemap.org/styles/dark",
 };
 
+// Below this zoom, marker name labels are hidden (dots only) to avoid label collisions
+// when several monuments sit close together (e.g. the Kodungallur cluster).
+const LABEL_MIN_ZOOM = 12;
+
 const THEME_STORAGE_KEY = "kochi-monuments-theme";
+const FILTER_STORAGE_KEY = "kochi-monuments-filters";
 
 function getStoredTheme() {
   try {
@@ -52,9 +58,33 @@ function setTheme(theme) {
   }
 }
 
+function getStoredEras(validEras) {
+  try {
+    const raw = localStorage.getItem(FILTER_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    const valid = parsed.filter((era) => validEras.includes(era));
+    return valid.length ? valid : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function storeActiveEras() {
+  try {
+    localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify([...state.activeEras]));
+  } catch (e) {
+    // ignore if storage is unavailable
+  }
+}
+
 function createMonumentMarkerElement(monument, color) {
   const el = document.createElement("div");
   el.className = "monument-marker";
+  el.tabIndex = 0;
+  el.setAttribute("role", "button");
+  el.setAttribute("aria-label", `${monument.name} — view details`);
 
   const dot = document.createElement("span");
   dot.className = "monument-dot";
@@ -66,6 +96,15 @@ function createMonumentMarkerElement(monument, color) {
 
   el.appendChild(dot);
   el.appendChild(label);
+
+  const activate = () => openDetail(monument);
+  el.addEventListener("click", activate);
+  el.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      activate();
+    }
+  });
   return el;
 }
 
@@ -76,6 +115,23 @@ function computeBounds(monuments, padding = 0) {
     [Math.min(...lngs) - padding, Math.min(...lats) - padding],
     [Math.max(...lngs) + padding, Math.max(...lats) + padding],
   ];
+}
+
+function flyToMonument(monument) {
+  if (!state.map) return;
+  state.map.flyTo({
+    center: [monument.lng, monument.lat],
+    zoom: Math.max(state.map.getZoom(), 15),
+    duration: 800,
+  });
+}
+
+function updateMarkerLabelVisibility() {
+  if (!state.map) return;
+  const show = state.map.getZoom() >= LABEL_MIN_ZOOM;
+  state.markers.forEach(({ marker }) => {
+    marker.getElement().classList.toggle("show-label", show);
+  });
 }
 
 function buildFilterList(eras) {
@@ -99,20 +155,29 @@ function buildFilterList(eras) {
       } else {
         state.activeEras.delete(era);
       }
+      storeActiveEras();
       applyFilter();
     }
   });
 }
 
 function applyFilter() {
+  const query = state.searchQuery.trim().toLowerCase();
+  let anyVisible = false;
+
   state.markers.forEach(({ marker, monument }) => {
-    const visible = state.activeEras.has(monument.era);
+    const visible = state.activeEras.has(monument.era) && (!query || monument.name.toLowerCase().includes(query));
     marker.getElement().style.display = visible ? "" : "none";
   });
+
   document.querySelectorAll(".monument-card").forEach((card) => {
-    const era = card.dataset.era;
-    card.style.display = state.activeEras.has(era) ? "" : "none";
+    const visible = state.activeEras.has(card.dataset.era) && (!query || card.dataset.name.includes(query));
+    card.style.display = visible ? "" : "none";
+    if (visible) anyVisible = true;
   });
+
+  const emptyState = document.getElementById("empty-state");
+  if (emptyState) emptyState.hidden = anyVisible;
 }
 
 function setAllCheckboxes(checked) {
@@ -125,6 +190,7 @@ function setAllCheckboxes(checked) {
       state.activeEras.delete(era);
     }
   });
+  storeActiveEras();
   applyFilter();
 }
 
@@ -139,7 +205,17 @@ function buildDirectionsUrl(monument) {
   return `${OSM_NAVIGATOR_BASE}?url=${encodeURIComponent(gmapsUrl)}`;
 }
 
-function openDetail(monument) {
+function setMonumentUrlParam(id) {
+  const url = new URL(location.href);
+  if (id) {
+    url.searchParams.set("monument", id);
+  } else {
+    url.searchParams.delete("monument");
+  }
+  history.replaceState(null, "", url);
+}
+
+function openDetail(monument, { updateUrl = true } = {}) {
   const overlay = document.getElementById("detail-overlay");
   const content = document.getElementById("detail-content");
   const image = monument.images && monument.images.length
@@ -151,13 +227,49 @@ function openDetail(monument) {
     <div class="address">${monument.address}</div>
     ${image}
     <p>${monument.description}</p>
-    <a class="directions-link" href="${buildDirectionsUrl(monument)}" target="_blank" rel="noopener">Get directions</a>
+    <div class="detail-actions">
+      <a class="directions-link" href="${buildDirectionsUrl(monument)}" target="_blank" rel="noopener">Get directions</a>
+      <button type="button" class="secondary-btn" id="copy-citation-btn">Copy citation</button>
+      <button type="button" class="secondary-btn" id="copy-link-btn">Copy link</button>
+    </div>
   `;
   overlay.hidden = false;
+
+  const citationMatch = monument.description.match(/Citations:[\s\S]*$/);
+  const citeBtn = document.getElementById("copy-citation-btn");
+  if (citeBtn) {
+    citeBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(citationMatch ? citationMatch[0] : monument.description);
+        citeBtn.textContent = "Copied!";
+        setTimeout(() => { citeBtn.textContent = "Copy citation"; }, 1500);
+      } catch (e) {
+        citeBtn.textContent = "Could not copy";
+      }
+    });
+  }
+
+  const linkBtn = document.getElementById("copy-link-btn");
+  if (linkBtn) {
+    linkBtn.addEventListener("click", async () => {
+      const url = new URL(location.href);
+      url.searchParams.set("monument", monument.id);
+      try {
+        await navigator.clipboard.writeText(url.toString());
+        linkBtn.textContent = "Copied!";
+        setTimeout(() => { linkBtn.textContent = "Copy link"; }, 1500);
+      } catch (e) {
+        linkBtn.textContent = "Could not copy";
+      }
+    });
+  }
+
+  if (updateUrl) setMonumentUrlParam(monument.id);
 }
 
 function closeDetail() {
   document.getElementById("detail-overlay").hidden = true;
+  setMonumentUrlParam(null);
 }
 
 function buildMonumentList(monuments) {
@@ -167,10 +279,43 @@ function buildMonumentList(monuments) {
     const li = document.createElement("li");
     li.className = "monument-card";
     li.dataset.era = m.era;
+    li.dataset.name = m.name.toLowerCase();
+    li.tabIndex = 0;
+    li.setAttribute("role", "button");
     li.innerHTML = `<h3>${m.name}</h3><div class="era-tag">${m.eraLabel}</div>`;
-    li.addEventListener("click", () => openDetail(m));
+    const activate = () => {
+      flyToMonument(m);
+      openDetail(m);
+    };
+    li.addEventListener("click", activate);
+    li.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activate();
+      }
+    });
     list.appendChild(li);
   });
+}
+
+function injectStructuredData(monuments) {
+  const data = monuments.map((m) => ({
+    "@context": "https://schema.org",
+    "@type": "LandmarksOrHistoricalBuildings",
+    name: m.name,
+    description: m.description,
+    address: m.address,
+    geo: { "@type": "GeoCoordinates", latitude: m.lat, longitude: m.lng },
+  }));
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify(data);
+  document.head.appendChild(script);
+}
+
+function hideLoadingOverlay() {
+  const overlay = document.getElementById("loading-overlay");
+  if (overlay) overlay.hidden = true;
 }
 
 async function init() {
@@ -182,10 +327,16 @@ async function init() {
     const match = state.monuments.find((m) => m.era === era);
     return { era, eraLabel: match.eraLabel };
   });
-  eraOrder.forEach(({ era }) => state.activeEras.add(era));
+  const allEraKeys = eraOrder.map((e) => e.era);
+  const storedEras = getStoredEras(allEraKeys);
+  (storedEras || allEraKeys).forEach((era) => state.activeEras.add(era));
 
   buildFilterList(eraOrder);
+  document.querySelectorAll("#filter-list input[type=checkbox]").forEach((cb) => {
+    cb.checked = state.activeEras.has(cb.dataset.era);
+  });
   buildMonumentList(state.monuments);
+  injectStructuredData(state.monuments);
 
   const initialTheme = getPreferredTheme();
   applyThemeDom(initialTheme);
@@ -204,14 +355,23 @@ async function init() {
     // survive the setStyle() calls used to switch between light/dark tiles.
     state.monuments.forEach((m) => {
       const el = createMonumentMarkerElement(m, ERA_COLORS[m.era] || "#999");
-      el.addEventListener("click", () => openDetail(m));
       const marker = new maplibregl.Marker({ element: el, anchor: "left" })
         .setLngLat([m.lng, m.lat])
         .addTo(map);
       state.markers.push({ marker, monument: m });
     });
     applyFilter();
+    updateMarkerLabelVisibility();
+    hideLoadingOverlay();
+
+    const deepLinkedId = new URLSearchParams(location.search).get("monument");
+    const deepLinked = deepLinkedId && state.monuments.find((m) => m.id === deepLinkedId);
+    if (deepLinked) {
+      flyToMonument(deepLinked);
+      openDetail(deepLinked, { updateUrl: false });
+    }
   });
+  map.on("zoom", updateMarkerLabelVisibility);
 
   document.getElementById("select-all").addEventListener("click", () => setAllCheckboxes(true));
   document.getElementById("deselect-all").addEventListener("click", () => setAllCheckboxes(false));
@@ -221,6 +381,10 @@ async function init() {
   });
   document.getElementById("theme-toggle").addEventListener("click", () => {
     setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+  });
+  document.getElementById("monument-search").addEventListener("input", (e) => {
+    state.searchQuery = e.target.value;
+    applyFilter();
   });
 
   if (!getStoredTheme()) {

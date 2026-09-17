@@ -21,6 +21,8 @@ The map is locked to this region (`maxBounds` in `app.js`) — panning and zoomi
 
 "Get directions" opens [osm-navigator](https://osm-navigator.siddharthshiv2798.workers.dev/), a companion turn-by-turn routing app, with the monument pre-filled as the destination. It works by building a Google-Maps-shaped URL (`.../maps/place/<name>/@<lat>,<lng>,17z`) and passing it via `?url=`, the same mechanism osm-navigator uses to resolve a pasted or shared Google Maps link — it parses the coordinates client-side and sets them as the destination search pick. The starting point isn't set by this site; osm-navigator handles that itself (its own current-location prompt or manual entry).
 
+Other UX details: a search box filters the monument list by name; marker name labels are hidden below zoom 12 to avoid overlapping near dense clusters (e.g. Kodungallur); clicking a list card flies the map to that marker; era filters persist in `localStorage` across reloads; every monument has a shareable `?monument=<id>` URL that reopens its detail card on load; the detail card has "Copy citation" and "Copy link" buttons; list cards and markers are keyboard-operable (Tab + Enter/Space).
+
 ## Running locally
 
 ```

@@ -18,6 +18,9 @@
 <meta name="twitter:description" content="An interactive map of Greater Kochi and Muziris — from the ancient Chera-era port to the Kingdom of Cochin, Portuguese, Dutch, and British Cochin — 23 sites across eight historical eras, each cited to published history.">
 <meta name="twitter:image" content="https://siddharth2798.github.io/kochi-monuments/preview.png">
 
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" integrity="sha384-MinO0mNliZ3vwppuPOUnGa+iq619pfMhLVUXfC4LHwSCvF9H+6P/KO4Q7qBOYV5V" crossorigin="anonymous">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -35,6 +38,7 @@
   <main class="layout">
     <aside class="panel">
       <div class="filter-block">
+        <input type="search" id="monument-search" class="search-input" placeholder="Search monuments…" aria-label="Search monuments by name">
         <div class="filter-actions">
           <button id="select-all" type="button">Select all</button>
           <button id="deselect-all" type="button">Deselect all</button>
@@ -42,9 +46,16 @@
         <ul id="filter-list" class="filter-list" aria-label="Filter by era"></ul>
       </div>
       <ul id="monument-list" class="monument-list" aria-label="Monuments"></ul>
+      <p id="empty-state" class="empty-state" hidden>No monuments match your filters or search.</p>
     </aside>
 
-    <div id="map" class="map"></div>
+    <div class="map-wrap">
+      <div id="map" class="map"></div>
+      <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Loading the map…</p>
+      </div>
+    </div>
   </main>
 
   <div id="detail-overlay" class="detail-overlay" hidden>
