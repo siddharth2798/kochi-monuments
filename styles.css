@@ -116,15 +116,36 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+.search-wrap {
+  position: relative;
+  margin-bottom: 0.75rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
 .search-input {
   width: 100%;
-  padding: 0.45rem 0.6rem;
-  margin-bottom: 0.6rem;
+  padding: 0.55rem 0.7rem 0.55rem 2.1rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 999px;
   background: var(--paper);
   color: var(--ink);
-  font-size: 0.85rem;
+  font-size: 0.88rem;
+}
+
+.search-input:focus-visible {
+  border-color: var(--accent);
+}
+
+.search-input::-webkit-search-cancel-button {
+  cursor: pointer;
 }
 
 .filter-actions {
@@ -250,26 +271,35 @@ body {
 }
 
 .monument-marker {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  /* No "position" here: MapLibre's own .maplibregl-marker rule sets position:absolute on this
+     same element (that's what makes its translate()-based placement work at all) — loading our
+     stylesheet after maplibre-gl.css meant a "position: relative" here used to win the cascade
+     and silently put every marker back into normal document flow, stacking them down the page. */
+  width: 34px;
+  height: 44px;
   cursor: pointer;
-  border-radius: 4px;
 }
 
-.monument-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-  flex-shrink: 0;
+.monument-pin-svg {
+  display: block;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
+  transition: transform 0.1s ease;
+}
+
+.monument-marker:hover .monument-pin-svg,
+.monument-marker:focus-visible .monument-pin-svg {
+  transform: scale(1.12);
+  transform-origin: bottom center;
 }
 
 .monument-label {
   display: none;
-  font-size: 11px;
-  font-weight: 600;
+  position: absolute;
+  left: 100%;
+  top: 6px;
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 700;
   color: #fff;
   white-space: nowrap;
   text-shadow:
@@ -281,7 +311,7 @@ body {
 }
 
 .monument-marker.show-label .monument-label {
-  display: inline;
+  display: inline-block;
 }
 
 .detail-overlay {

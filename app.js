@@ -26,6 +26,17 @@ const MAP_STYLES = {
 // when several monuments sit close together (e.g. the Kodungallur cluster).
 const LABEL_MIN_ZOOM = 12;
 
+// The initial map view frames just the dense Fort Kochi / Mattancherry / Willingdon Island /
+// Ernakulam / Tripunithura cluster rather than the full extent — Kodungallur/Muziris (~30km
+// north) and the northern Vypin sites are still reachable by panning/zooming out, up to maxBounds.
+const CORE_CLUSTER_IDS = new Set([
+  "st-francis-church", "chinese-fishing-nets", "fort-immanuel", "bishops-house-indo-portuguese-museum",
+  "santa-cruz-basilica", "dutch-cemetery-fort-kochi", "david-hall",
+  "mattancherry-palace", "paradesi-synagogue", "kadavumbagam-synagogue",
+  "willingdon-island-cochin-port", "durbar-hall-ernakulam",
+  "hill-palace-tripunithura", "sree-poornathrayeesa-temple", "tripunithura-hill-palace-predecessor",
+]);
+
 const THEME_STORAGE_KEY = "kochi-monuments-theme";
 const FILTER_STORAGE_KEY = "kochi-monuments-filters";
 
@@ -39,7 +50,8 @@ function getStoredTheme() {
 }
 
 function getPreferredTheme() {
-  return getStoredTheme() || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  // Default to light regardless of system preference; dark mode is opt-in via the toggle.
+  return getStoredTheme() || "light";
 }
 
 function applyThemeDom(theme) {
@@ -86,16 +98,13 @@ function createMonumentMarkerElement(monument, color) {
   el.setAttribute("role", "button");
   el.setAttribute("aria-label", `${monument.name} — view details`);
 
-  const dot = document.createElement("span");
-  dot.className = "monument-dot";
-  dot.style.background = color;
-
-  const label = document.createElement("span");
-  label.className = "monument-label";
-  label.textContent = monument.name;
-
-  el.appendChild(dot);
-  el.appendChild(label);
+  el.innerHTML = `
+    <svg class="monument-pin-svg" width="34" height="44" viewBox="0 0 24 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M12 0C6.48 0 2 4.48 2 10c0 7.5 10 20 10 20s10-12.5 10-20C22 4.48 17.52 0 12 0z" fill="${color}" stroke="#fff" stroke-width="1.5"></path>
+      <circle cx="12" cy="10" r="4.2" fill="#fff"></circle>
+    </svg>
+    <span class="monument-label">${monument.name}</span>
+  `;
 
   const activate = () => openDetail(monument);
   el.addEventListener("click", activate);
@@ -341,10 +350,12 @@ async function init() {
   const initialTheme = getPreferredTheme();
   applyThemeDom(initialTheme);
 
+  const coreMonuments = state.monuments.filter((m) => CORE_CLUSTER_IDS.has(m.id));
+
   const map = new maplibregl.Map({
     container: "map",
     style: MAP_STYLES[initialTheme],
-    bounds: computeBounds(state.monuments, 0.03),
+    bounds: computeBounds(coreMonuments.length ? coreMonuments : state.monuments, 0.02),
     fitBoundsOptions: { padding: 40 },
     maxBounds: computeBounds(state.monuments, 0.12),
   });
@@ -357,7 +368,7 @@ async function init() {
   // overlay — and the markers/list — stuck indefinitely even once the tab was brought forward.
   state.monuments.forEach((m) => {
     const el = createMonumentMarkerElement(m, ERA_COLORS[m.era] || "#999");
-    const marker = new maplibregl.Marker({ element: el, anchor: "left" })
+    const marker = new maplibregl.Marker({ element: el, anchor: "bottom" })
       .setLngLat([m.lng, m.lat])
       .addTo(map);
     state.markers.push({ marker, monument: m });
@@ -365,6 +376,15 @@ async function init() {
   applyFilter();
   updateMarkerLabelVisibility();
   map.on("zoom", updateMarkerLabelVisibility);
+
+  // Re-assert every marker's position once the camera settles. MapLibre repositions markers
+  // reactively off its own render loop, which can fall behind (or apply a stale intermediate
+  // position) during the initial fitBounds animation or on a throttled/backgrounded tab —
+  // visible as pins sitting in the wrong place after a zoom/pan. setLngLat forces an immediate,
+  // authoritative recompute rather than waiting on that loop to catch up.
+  map.on("moveend", () => {
+    state.markers.forEach(({ marker, monument }) => marker.setLngLat([monument.lng, monument.lat]));
+  });
 
   const deepLinkedId = new URLSearchParams(location.search).get("monument");
   const deepLinked = deepLinkedId && state.monuments.find((m) => m.id === deepLinkedId);
@@ -391,14 +411,6 @@ async function init() {
     state.searchQuery = e.target.value;
     applyFilter();
   });
-
-  if (!getStoredTheme()) {
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-      const theme = e.matches ? "dark" : "light";
-      applyThemeDom(theme);
-      map.setStyle(MAP_STYLES[theme]);
-    });
-  }
 }
 
 init();
