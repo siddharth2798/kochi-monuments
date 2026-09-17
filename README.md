@@ -1,0 +1,66 @@
+# The Many Cities of Kochi
+
+An interactive map of monuments and historic sites across Greater Kochi — from the ancient Chera-era port of Muziris to the Kingdom of Cochin, Portuguese, Dutch and British Cochin, and Kochi's integration into Kerala — each site tagged to the era that shaped it, with citations to published historical sources.
+
+Inspired by [The Many Cities of Delhi](https://kaustubh-misra.github.io/delhi-monuments/) by Kaustubh Misra (GPLv3), which mapped Delhi's monuments through its succession of ruling kingdoms.
+
+## Coverage
+
+Fort Kochi, Mattancherry/Jew Town, Willingdon Island, Tripunithura, Vypin, and the Kodungallur/Muziris region (~30km north, Thrissur District), spanning eight historical layers:
+
+- Chera / Muziris-adjacent Era (pre-1341)
+- Kingdom of Cochin (Perumpadappu Swaroopam)
+- Portuguese Cochin (1503–1663)
+- Dutch Cochin (1663–1795)
+- Mysorean Invasion / Tipu Sultan Era (1776–1792)
+- British Paramountcy / Princely State of Cochin (1795–1947)
+- Jewish Heritage (Paradesi & Malabar Jews)
+- Integration into Kerala (1947–1956 onward)
+
+## Running locally
+
+```
+python3 -m http.server 8000
+```
+
+Then open `http://localhost:8000`. (Opening `index.html` directly via `file://` will not work — the browser blocks `fetch()` of `monuments.json` under the `file://` scheme.)
+
+## Validating the data
+
+```
+python3 scripts/validate_monuments.py
+```
+
+Checks schema completeness, coordinate sanity for the Greater Kochi/Kodungallur bounding box, duplicate IDs, presence of a citation clause in every description, and per-era coverage. Pass `--write` to refresh the `generatedAt` timestamp after an edit.
+
+## Historical sources
+
+Every monument's description ends with its own citations. The works drawn on across the dataset include:
+
+- K.P. Padmanabha Menon, *History of Kerala* (1924–1937)
+- A. Sreedhara Menon, *A Survey of Kerala History* (1967); Kerala District Gazetteers (Ernakulam & Thrissur)
+- C. Achyutha Menon, *The Cochin State Manual* (1911, Government of Cochin)
+- William Logan, *Malabar Manual* (1887)
+- Pius Malekandathil, *Portuguese Cochin and the Maritime Trade of India, 1500–1663* (2001)
+- Robert Bristow, *Cochin Saga* (1959)
+- Roland E. Miller, *Mappila Muslims of Kerala: A Study in Islamic Trends* (1976)
+- J.B. Segal, *A History of the Jews of Cochin* (1993)
+- Nathan Katz, *Who Are the Jews of India?* (2000)
+- Ruby Daniel & Barbara C. Johnson, *Ruby of Cochin: An Indian Jewish Woman Remembers* (1995)
+- P.J. Cherian (ed.), *Pattanam Excavations: Interim Reports*, Kerala Council for Historical Research (2007–2015)
+- Roberta Tomber, *Indo-Roman Trade: From Pots to Pepper* (2008)
+- Pliny the Elder, *Natural History* (c. 77 CE); *Periplus Maris Erythraei* (1st century CE), trans. Lionel Casson (1989)
+
+This list is a starting bibliography, not exhaustive — contributions of better or additional sources for any entry are welcome.
+
+## Data notes
+
+Coordinates in `monuments.json` were placed from general geographic knowledge and should be spot-checked against a map or GPS survey before treating them as precise; corrections are welcome via pull request. The `mysorean` era currently has no monument tagged to it directly — the 1776 Mysorean invasion is referenced within the Kingdom of Cochin and Hill Palace entries instead of a fabricated standalone site, since no discrete surviving structure could be confidently identified.
+
+## Tech
+
+Static HTML/CSS/JS, no build step. Map rendering by [MapLibre GL JS](https://maplibre.org), tiles from [OpenFreeMap](https://openfreemap.org), map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright). No API key required.
+
+## License
+
+GNU General Public License v3.0 — see [LICENSE](LICENSE). Following the license of the project this one is modeled on.
