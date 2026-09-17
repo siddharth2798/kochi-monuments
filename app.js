@@ -13,7 +13,44 @@ const state = {
   monuments: [],
   markers: [],
   activeEras: new Set(),
+  map: null,
 };
+
+const MAP_STYLES = {
+  light: "https://tiles.openfreemap.org/styles/liberty",
+  dark: "https://tiles.openfreemap.org/styles/dark",
+};
+
+const THEME_STORAGE_KEY = "kochi-monuments-theme";
+
+function getStoredTheme() {
+  try {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    return stored === "light" || stored === "dark" ? stored : null;
+  } catch (e) {
+    return null; // localStorage unavailable (private browsing, etc.)
+  }
+}
+
+function getPreferredTheme() {
+  return getStoredTheme() || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+}
+
+function applyThemeDom(theme) {
+  document.documentElement.dataset.theme = theme;
+  const toggle = document.getElementById("theme-toggle");
+  if (toggle) toggle.textContent = theme === "dark" ? "☀️" : "🌙";
+}
+
+function setTheme(theme) {
+  applyThemeDom(theme);
+  if (state.map) state.map.setStyle(MAP_STYLES[theme]);
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch (e) {
+    // ignore if storage is unavailable
+  }
+}
 
 function createMonumentPinElement(color) {
   const el = document.createElement("div");
@@ -22,12 +59,12 @@ function createMonumentPinElement(color) {
   return el;
 }
 
-function computeBounds(monuments) {
+function computeBounds(monuments, padding = 0) {
   const lats = monuments.map((m) => m.lat);
   const lngs = monuments.map((m) => m.lng);
   return [
-    [Math.min(...lngs), Math.min(...lats)],
-    [Math.max(...lngs), Math.max(...lats)],
+    [Math.min(...lngs) - padding, Math.min(...lats) - padding],
+    [Math.max(...lngs) + padding, Math.max(...lats) + padding],
   ];
 }
 
@@ -129,14 +166,21 @@ async function init() {
   buildFilterList(eraOrder);
   buildMonumentList(state.monuments);
 
+  const initialTheme = getPreferredTheme();
+  applyThemeDom(initialTheme);
+
   const map = new maplibregl.Map({
     container: "map",
-    style: "https://tiles.openfreemap.org/styles/liberty",
-    bounds: computeBounds(state.monuments),
+    style: MAP_STYLES[initialTheme],
+    bounds: computeBounds(state.monuments, 0.03),
     fitBoundsOptions: { padding: 40 },
+    maxBounds: computeBounds(state.monuments, 0.12),
   });
+  state.map = map;
 
   map.on("load", () => {
+    // Marker elements are plain DOM overlays, independent of the style, so they
+    // survive the setStyle() calls used to switch between light/dark tiles.
     state.monuments.forEach((m) => {
       const el = createMonumentPinElement(ERA_COLORS[m.era] || "#999");
       el.addEventListener("click", () => openDetail(m));
@@ -145,6 +189,7 @@ async function init() {
         .addTo(map);
       state.markers.push({ marker, monument: m });
     });
+    applyFilter();
   });
 
   document.getElementById("select-all").addEventListener("click", () => setAllCheckboxes(true));
@@ -153,6 +198,17 @@ async function init() {
   document.getElementById("detail-overlay").addEventListener("click", (e) => {
     if (e.target.id === "detail-overlay") closeDetail();
   });
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+  });
+
+  if (!getStoredTheme()) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+      const theme = e.matches ? "dark" : "light";
+      applyThemeDom(theme);
+      map.setStyle(MAP_STYLES[theme]);
+    });
+  }
 }
 
 init();

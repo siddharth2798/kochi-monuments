@@ -17,6 +17,8 @@ Fort Kochi, Mattancherry/Jew Town, Willingdon Island, Tripunithura, Vypin, and t
 - Jewish Heritage (Paradesi & Malabar Jews)
 - Integration into Kerala (1947–1956 onward)
 
+The map is locked to this region (`maxBounds` in `app.js`) — panning and zooming out are clamped so the tiles shown never wander outside Greater Kochi and Kodungallur. A dark-mode toggle (top right) follows the system theme by default and switches the map between OpenFreeMap's `liberty` (light) and `dark` styles; the choice persists in `localStorage`.
+
 ## Running locally
 
 ```
