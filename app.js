@@ -265,6 +265,32 @@ function ensureTerritoryLayers(map) {
     filter: ["all", eraFilter, ["==", ["get", "confidence"], 3]],
     paint: { "line-color": colorExpr, "line-width": 2.5 },
   }, beforeId);
+
+  // Our territory polygons are hand-drawn approximations with no awareness of the real
+  // coastline, so their edges routinely cut across open water. Rather than trying to clip
+  // them ourselves, redraw the basemap's own (accurate) water layer again on top of our tint —
+  // cloning its exact source/source-layer/filter/color from the current style — which visually
+  // "erases" the tint back to water wherever it doesn't actually correspond to land.
+  const baseWaterLayer = map.getStyle().layers.find((l) => l.id === "water" && l.type === "fill");
+  if (baseWaterLayer) {
+    map.addLayer({
+      id: "territories-water-mask",
+      type: "fill",
+      source: baseWaterLayer.source,
+      "source-layer": baseWaterLayer["source-layer"],
+      filter: baseWaterLayer.filter,
+      paint: { "fill-color": baseWaterLayer.paint["fill-color"] },
+    }, beforeId);
+  }
+}
+
+const TERRITORY_LAYER_IDS = ["territories-fill", "territories-line-approx", "territories-line-solid", "territories-water-mask"];
+
+function setTerritoryLayersVisible(map, visible) {
+  const visibility = visible ? "visible" : "none";
+  TERRITORY_LAYER_IDS.forEach((id) => {
+    if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", visibility);
+  });
 }
 
 function setTerritoryEra(eraId) {
@@ -379,12 +405,7 @@ function setMode(mode) {
   document.querySelector(".timeline-bar").dataset.mode = mode;
   document.getElementById("browse-controls").hidden = mode !== "browse";
 
-  if (state.map && state.map.getLayer("territories-fill")) {
-    const visibility = mode === "timeline" ? "visible" : "none";
-    state.map.setLayoutProperty("territories-fill", "visibility", visibility);
-    state.map.setLayoutProperty("territories-line-approx", "visibility", visibility);
-    state.map.setLayoutProperty("territories-line-solid", "visibility", visibility);
-  }
+  if (state.map) setTerritoryLayersVisible(state.map, mode === "timeline");
 
   applyFilter();
 }
@@ -576,10 +597,7 @@ async function init() {
     ensureTerritoryLayers(map);
     // A theme switch re-adds these layers at their default (visible) layout state — re-sync to
     // whatever mode is actually active, in case it happened to be "browse" (territories hidden).
-    const visibility = state.mode === "timeline" ? "visible" : "none";
-    map.setLayoutProperty("territories-fill", "visibility", visibility);
-    map.setLayoutProperty("territories-line-approx", "visibility", visibility);
-    map.setLayoutProperty("territories-line-solid", "visibility", visibility);
+    setTerritoryLayersVisible(map, state.mode === "timeline");
   });
 
   // Markers are plain DOM overlays independent of the style/tiles, so they don't need to wait

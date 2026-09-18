@@ -31,6 +31,8 @@ These are **hand-drawn illustrative approximations, not surveyed boundaries** �
 - **Timeline** (default): shows the selected era's territory overlay, and dims (not hides) monuments whose era tag isn't relevant to that period — relevance is a many-to-many mapping (`TERRITORY_TO_MONUMENT_ERAS`) since the two era taxonomies were never designed to align 1:1.
 - **Browse all eras**: today's original free multi-select checkbox browsing, territory overlay hidden, no dimming.
 
+Since the polygons are hand-drawn without any awareness of the real coastline, an early version's edges routinely cut across open water. Fixed by redrawing the basemap's own accurate `water` layer (cloned live from the current MapLibre style, so it matches both the light and dark themes automatically) on top of the territory tint — any part of a polygon that doesn't actually correspond to land gets visually erased back to water. Willingdon Island and Vypin also now use their real OSM geometry (fetched via Overpass, simplified, baked into `territories.json`) instead of a generated shape, for the two entities where a real one exists — most other named places here (Fort Kochi, Mattancherry, Ernakulam, Edappally, Palluruthy, Vyttila) only exist as single point nodes in OSM, not boundary polygons, so the rest stay hand-drawn approximations.
+
 ## Running locally
 
 ```
