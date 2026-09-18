@@ -282,9 +282,29 @@ function ensureTerritoryLayers(map) {
       paint: { "fill-color": baseWaterLayer.paint["fill-color"] },
     }, beforeId);
   }
+
+  // Name each territory on the map itself (in its period-appropriate name, e.g. "Cochin
+  // (English)" for the colonial Fort Kochi enclave) rather than only in the caption text below.
+  map.addLayer({
+    id: "territories-label",
+    type: "symbol",
+    source: "territories",
+    filter: eraFilter,
+    layout: {
+      "text-field": ["get", "entity"],
+      "text-font": ["Noto Sans Bold"],
+      "text-size": 13,
+      "text-max-width": 8,
+    },
+    paint: {
+      "text-color": colorExpr,
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 1.5,
+    },
+  }, beforeId);
 }
 
-const TERRITORY_LAYER_IDS = ["territories-fill", "territories-line-approx", "territories-line-solid", "territories-water-mask"];
+const TERRITORY_LAYER_IDS = ["territories-fill", "territories-line-approx", "territories-line-solid", "territories-water-mask", "territories-label"];
 
 function setTerritoryLayersVisible(map, visible) {
   const visibility = visible ? "visible" : "none";
@@ -297,11 +317,17 @@ function setTerritoryEra(eraId) {
   state.activeTerritoryEra = eraId;
 
   const map = state.map;
+  // Self-heal: "style.load" doesn't always fire reliably after a runtime setStyle() call (the
+  // dark-mode toggle) — if the territory layers went missing because of that, recreate them
+  // right here rather than leaving the overlay silently blank until something else happens to
+  // trigger ensureTerritoryLayers again.
+  if (map && map.isStyleLoaded() && !map.getSource("territories")) ensureTerritoryLayers(map);
   if (map && map.getSource("territories")) {
     const eraFilter = ["==", ["get", "era"], eraId];
     map.setFilter("territories-fill", eraFilter);
     map.setFilter("territories-line-approx", ["all", eraFilter, ["<", ["get", "confidence"], 3]]);
     map.setFilter("territories-line-solid", ["all", eraFilter, ["==", ["get", "confidence"], 3]]);
+    map.setFilter("territories-label", eraFilter);
   }
 
   document.querySelectorAll(".timeline-chip").forEach((chip) => {
@@ -592,13 +618,18 @@ async function init() {
 
   // "style.load" fires for the initial style AND every subsequent setStyle() (the dark-mode
   // toggle), which wipes custom sources/layers — re-adding them here every time keeps the
-  // territory overlay working across a theme switch, not just on first load.
-  map.on("style.load", () => {
+  // territory overlay working across a theme switch, not just on first load. It doesn't always
+  // fire reliably after a runtime setStyle() call, though, so also retry on "styledata" (fires
+  // much more often) guarded by isStyleLoaded() — ensureTerritoryLayers is idempotent either way.
+  const restoreTerritoryLayers = () => {
+    if (!map.isStyleLoaded() || map.getSource("territories")) return;
     ensureTerritoryLayers(map);
     // A theme switch re-adds these layers at their default (visible) layout state — re-sync to
     // whatever mode is actually active, in case it happened to be "browse" (territories hidden).
     setTerritoryLayersVisible(map, state.mode === "timeline");
-  });
+  };
+  map.on("style.load", restoreTerritoryLayers);
+  map.on("styledata", restoreTerritoryLayers);
 
   // Markers are plain DOM overlays independent of the style/tiles, so they don't need to wait
   // for map "load" — added immediately, they also survive the setStyle() calls used to switch

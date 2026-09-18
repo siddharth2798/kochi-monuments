@@ -5,7 +5,7 @@
       "type": "Feature",
       "properties": {
         "era": "chera-unified",
-        "entity": "Chera Kingdom (Kodungallur)",
+        "entity": "Chera Kingdom (Mahodayapuram)",
         "entity_id": "chera-kingdom",
         "confidence": 1
       },
@@ -14,40 +14,56 @@
         "coordinates": [
           [
             [
-              76.5217,
-              10.05
+              76.6817,
+              10.02
             ],
             [
-              76.445,
-              10.1901
+              76.6265,
+              10.2227
             ],
             [
-              76.26,
-              10.2482
+              76.4758,
+              10.3711
             ],
             [
-              76.075,
-              10.1901
+              76.27,
+              10.4254
             ],
             [
-              75.9983,
-              10.05
+              76.0642,
+              10.3711
             ],
             [
-              76.075,
-              9.9099
+              75.9135,
+              10.2227
             ],
             [
-              76.26,
-              9.8518
+              75.8583,
+              10.02
             ],
             [
-              76.445,
-              9.9099
+              75.9135,
+              9.8173
             ],
             [
-              76.5217,
-              10.05
+              76.0642,
+              9.6689
+            ],
+            [
+              76.27,
+              9.6146
+            ],
+            [
+              76.4758,
+              9.6689
+            ],
+            [
+              76.6265,
+              9.8173
+            ],
+            [
+              76.6817,
+              10.02
             ]
           ]
         ]
@@ -105,7 +121,7 @@
       "type": "Feature",
       "properties": {
         "era": "fragmentation",
-        "entity": "Kodungallur (declining Chera authority)",
+        "entity": "Mahodayapuram (declining Chera authority)",
         "entity_id": "kodungallur-remnant",
         "confidence": 1
       },
@@ -149,7 +165,7 @@
       "type": "Feature",
       "properties": {
         "era": "cochin-formed",
-        "entity": "Kingdom of Cochin",
+        "entity": "Kingdom of Cochin (Perumpadappu Swaroopam)",
         "entity_id": "kingdom-of-cochin",
         "confidence": 1
       },
@@ -158,40 +174,56 @@
         "coordinates": [
           [
             [
-              76.4774,
-              10.015
+              76.6817,
+              10.02
             ],
             [
-              76.3991,
-              10.1081
+              76.6265,
+              10.2227
             ],
             [
-              76.257,
-              10.132
+              76.4758,
+              10.3711
             ],
             [
-              76.1341,
-              10.0727
+              76.27,
+              10.4254
             ],
             [
-              76.1026,
-              9.965
+              76.0642,
+              10.3711
             ],
             [
-              76.1809,
-              9.8719
+              75.9135,
+              10.2227
             ],
             [
-              76.323,
-              9.848
+              75.8583,
+              10.02
             ],
             [
-              76.4459,
-              9.9073
+              75.9135,
+              9.8173
             ],
             [
-              76.4774,
-              10.015
+              76.0642,
+              9.6689
+            ],
+            [
+              76.27,
+              9.6146
+            ],
+            [
+              76.4758,
+              9.6689
+            ],
+            [
+              76.6265,
+              9.8173
+            ],
+            [
+              76.6817,
+              10.02
             ]
           ]
         ]
@@ -201,7 +233,7 @@
       "type": "Feature",
       "properties": {
         "era": "paliam-era",
-        "entity": "Kingdom of Cochin",
+        "entity": "Kingdom of Cochin (Perumpadappu Swaroopam)",
         "entity_id": "kingdom-of-cochin",
         "confidence": 1
       },
@@ -210,40 +242,56 @@
         "coordinates": [
           [
             [
-              76.4774,
-              10.015
+              76.6817,
+              10.02
             ],
             [
-              76.3991,
-              10.1081
+              76.6265,
+              10.2227
             ],
             [
-              76.257,
-              10.132
+              76.4758,
+              10.3711
             ],
             [
-              76.1341,
-              10.0727
+              76.27,
+              10.4254
             ],
             [
-              76.1026,
-              9.965
+              76.0642,
+              10.3711
             ],
             [
-              76.1809,
-              9.8719
+              75.9135,
+              10.2227
             ],
             [
-              76.323,
-              9.848
+              75.8583,
+              10.02
             ],
             [
-              76.4459,
-              9.9073
+              75.9135,
+              9.8173
             ],
             [
-              76.4774,
-              10.015
+              76.0642,
+              9.6689
+            ],
+            [
+              76.27,
+              9.6146
+            ],
+            [
+              76.4758,
+              9.6689
+            ],
+            [
+              76.6265,
+              9.8173
+            ],
+            [
+              76.6817,
+              10.02
             ]
           ]
         ]
@@ -297,51 +345,7 @@
       "type": "Feature",
       "properties": {
         "era": "colonial-dual",
-        "entity": "Fort Kochi (colonial enclave)",
-        "entity_id": "fort-kochi-enclave",
-        "confidence": 3
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              76.2662,
-              9.9712
-            ],
-            [
-              76.2481,
-              9.9839
-            ],
-            [
-              76.2234,
-              9.9792
-            ],
-            [
-              76.2168,
-              9.9618
-            ],
-            [
-              76.2349,
-              9.9491
-            ],
-            [
-              76.2596,
-              9.9538
-            ],
-            [
-              76.2662,
-              9.9712
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "era": "colonial-dual",
-        "entity": "Princely State of Cochin",
+        "entity": "Cochin State",
         "entity_id": "princely-state-cochin",
         "confidence": 2
       },
@@ -384,6 +388,50 @@
             [
               76.4815,
               10.0142
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "era": "colonial-dual",
+        "entity": "Cochin (English)",
+        "entity_id": "fort-kochi-enclave",
+        "confidence": 3
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.2662,
+              9.9712
+            ],
+            [
+              76.2481,
+              9.9839
+            ],
+            [
+              76.2234,
+              9.9792
+            ],
+            [
+              76.2168,
+              9.9618
+            ],
+            [
+              76.2349,
+              9.9491
+            ],
+            [
+              76.2596,
+              9.9538
+            ],
+            [
+              76.2662,
+              9.9712
             ]
           ]
         ]
