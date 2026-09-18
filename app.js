@@ -428,7 +428,7 @@ function setMode(mode) {
   state.mode = mode;
   document.getElementById("mode-timeline-btn").setAttribute("aria-selected", String(mode === "timeline"));
   document.getElementById("mode-browse-btn").setAttribute("aria-selected", String(mode === "browse"));
-  document.querySelector(".timeline-bar").dataset.mode = mode;
+  document.getElementById("timeline-controls").hidden = mode !== "timeline";
   document.getElementById("browse-controls").hidden = mode !== "browse";
 
   if (state.map) setTerritoryLayersVisible(state.map, mode === "timeline");
